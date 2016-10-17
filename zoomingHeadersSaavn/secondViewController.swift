@@ -6,6 +6,20 @@
 //  Copyright © 2016 rohan. All rights reserved.
 //
 
+
+/*
+ 
+ 
+ 
+ self.view ke upar ek aur uiview dal. Fir self.view ka bg color change kar aur mainView ko mask kar
+ overlay view is always necessary
+ 
+ 
+ 
+ 
+ 
+ */
+
 import UIKit
 
 class secondViewController: UIViewController,CAAnimationDelegate {
@@ -17,20 +31,26 @@ class secondViewController: UIViewController,CAAnimationDelegate {
     
     
     @IBOutlet var overlay:UIView!
+    @IBOutlet var mainView:UIView!
     
     override func viewDidLoad() {
         
         
         
+        doThis()
         
         
-        let gesture = UITapGestureRecognizer(target: self, action: "doThis")
-        self.view.addGestureRecognizer(gesture)
+        
         
         super.viewDidLoad()
         
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let gesture = UITapGestureRecognizer(target: self, action: "doThis")
+        self.view.addGestureRecognizer(gesture)
     }
 
     
@@ -43,7 +63,9 @@ class secondViewController: UIViewController,CAAnimationDelegate {
         mask.contents = UIImage(named: "tw")?.cgImage
         mask.bounds = CGRect(x: 0, y: 0, width: 100, height: 100)
         mask.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height/2)
-        self.view.layer.mask = mask;
+      
+        self.mainView.layer.mask = mask;
+        
         
         self.animateDecrease()
         
@@ -54,7 +76,7 @@ class secondViewController: UIViewController,CAAnimationDelegate {
     {
         
         let dec = CABasicAnimation(keyPath: "bounds")
-        dec.duration = 0.5
+        dec.duration = 0.75
         dec.fromValue = NSValue(cgRect: self.mask.bounds)
         dec.toValue = NSValue(cgRect: CGRect(x: 0, y: 0, width: 80, height: 80))
         
@@ -76,7 +98,7 @@ class secondViewController: UIViewController,CAAnimationDelegate {
     func increasesize()
     {
         let dec = CABasicAnimation(keyPath: "bounds")
-        dec.duration = 0.5
+        dec.duration = 1.0
         dec.fromValue = NSValue(cgRect: self.mask.bounds)
         dec.toValue = NSValue(cgRect: CGRect(x: 0, y: 0, width: 2500, height: 2500))
         
@@ -86,7 +108,7 @@ class secondViewController: UIViewController,CAAnimationDelegate {
        // dec.delegate = self;
         
         mask.add(dec, forKey: "bounds")
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 1.0, animations: {
             
             
         
